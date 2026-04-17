@@ -37,7 +37,7 @@ const Connexion = () => {
 
   return (
     <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md min-h-50">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-purple-800">
             Connexion
