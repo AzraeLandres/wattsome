@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# Wattsome
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application web progressive (PWA) de suivi de consommation électrique personnelle.
 
-Currently, two official plugins are available:
+## Stack technique
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend** : React + Vite + TypeScript + Tailwind CSS + shadcn/ui
+- **Backend** : Node.js + Express + TypeScript
+- **Base de données** : PostgreSQL
+- **APIs** : Conso API (données Linky), Open Data Enedis
 
-## React Compiler
+## Fonctionnalités
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Inscription et authentification (JWT)
+- Connexion au compteur Linky via token Enedis
+- Visualisation de la consommation par jour / mois / année
+- Sélecteur de plage de dates personnalisée
+- Calcul du coût estimé et de l'empreinte CO₂
+- Alertes en cas de consommation inhabituelle
+- Synchronisation automatique quotidienne (cron job)
+- Installable sur mobile (PWA)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Cloner le projet
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+git clone https://github.com/AzraeLandres/wattsome.git
+cd wattsome
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Lancer la base de données
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+docker run --name wattsome-db -e POSTGRES_PASSWORD=tonmdp -e POSTGRES_DB=wattsome -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
 ```
+
+### 3. Configurer le backend
+
+```bash
+cd server
+npm install
+```
+
+Crée un fichier `.env` dans `server/` :
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=wattsome
+DB_USER=postgres
+DB_PASSWORD=tonmdp
+JWT_SECRET=un_secret_long_et_aleatoire
+PORT=3000
+
+Initialise le schéma :
+
+```bash
+cat src/config/schema.sql | docker exec -i wattsome-db psql -U postgres -d wattsome
+```
+
+Lance le serveur :
+
+```bash
+npm run dev
+```
+
+### 4. Configurer le frontend
+
+```bash
+cd ..
+npm install
+npm run dev
+```
+
+L'application est accessible sur `http://localhost:5173`
+
+## Utilisation
+
+1. Créer un compte
+2. Se connecter
+3. Aller dans l'onglet **Linky** et coller votre token Enedis (obtenu sur conso.boris.sh)
+4. Vos données de consommation s'affichent sur le tableau de bord
+
+## Sécurité
+
+- Mots de passe hachés avec bcrypt
+- Authentification via JWT
+- Requêtes SQL préparées (protection injections SQL)
+- Token Linky stocké en base, jamais exposé côté client
