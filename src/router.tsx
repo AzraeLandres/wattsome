@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Inscription from "./pages/Inscription.tsx";
-import Connexion from "./pages/Connexion.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import Profil from "./pages/Profil.tsx";
+import Inscription from "./pages/Inscription";
+import Connexion from "./pages/Connexion";
+import Dashboard from "./pages/Dashboard";
+import Profil from "./pages/Profil";
 import App from "./App";
 
 const router = createBrowserRouter([

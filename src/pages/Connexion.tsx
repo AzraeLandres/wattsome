@@ -1,3 +1,5 @@
-export default function Connexion() {
-  return <div className="connexion"> )</div>;
-}
+const Connexion = () => {
+  return <div>Connexion</div>;
+};
+
+export default Connexion;

@@ -1,3 +1,5 @@
-export default function Profil() {
-  return <div className="profil"> )</div>;
-}
+const Profil = () => {
+  return <div>Profil</div>;
+};
+
+export default Profil;

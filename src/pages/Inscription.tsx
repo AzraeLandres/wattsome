@@ -1,3 +1,5 @@
-export default function Inscription() {
-  return <div className="inscription"> )</div>;
-}
+const Inscription = () => {
+  return <div>Inscription</div>;
+};
+
+export default Inscription;
