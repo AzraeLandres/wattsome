@@ -40,7 +40,7 @@ export const connectLinky = async (req: AuthRequest, res: Response) => {
     for (const reading of readings) {
       await pool.query(
         'INSERT INTO consommation (valeur, unite, "dateMesure", "idUtilisateur") VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING',
-        [reading.value, "kWh", reading.date, req.userId],
+        [reading.value / 1000, "kWh", reading.date, req.userId],
       );
     }
 
