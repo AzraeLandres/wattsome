@@ -27,14 +27,15 @@ const BottomNav = () => {
   if (hasLinky === null) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center h-16">
+    <nav className=" w-full max-w-md bg-white border-t border-gray-200 flex justify-around items-center h-20">
+      {" "}
       {tabs.map(({ path, icon: Icon, label }) => {
         const isActive = location.pathname === path;
         return (
           <button
             key={path}
             onClick={() => navigate(path)}
-            className="flex flex-col items-center gap-1 flex-1 py-2"
+            className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer"
           >
             <Icon
               size={22}

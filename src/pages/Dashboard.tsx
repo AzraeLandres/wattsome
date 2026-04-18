@@ -96,7 +96,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 p-4">
+    <div className="min-h-screen bg-amber-50 pt-10 px-4">
       <h2 className="text-2xl font-bold text-purple-800 mb-4">
         Suivre sa consommation
       </h2>
@@ -124,7 +124,7 @@ const Dashboard = () => {
               setPeriode(p);
               setModePersonnalise(false);
             }}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium ${
+            className={`flex-1 py-2 rounded-lg text-sm font-medium cursor-pointer ${
               periode === p
                 ? "bg-amber-400 text-purple-900"
                 : "bg-white text-gray-600"
