@@ -21,3 +21,16 @@ export const connectLinky = async (token: string) => {
   });
   return response.json();
 };
+
+export const getAlertes = async () => {
+  const response = await fetch(`${API_URL}/alertes`, { headers: getHeaders() });
+  return response.json();
+};
+
+export const marquerAlerteLue = async (id: string) => {
+  const response = await fetch(`${API_URL}/alertes/${id}/lu`, {
+    method: "PATCH",
+    headers: getHeaders(),
+  });
+  return response.json();
+};

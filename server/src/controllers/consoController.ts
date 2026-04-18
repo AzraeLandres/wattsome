@@ -61,6 +61,67 @@ export const connectLinky = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+
+export const syncLinky = async (userId: string) => {
+  const user = await pool.query(
+    'SELECT "tokenLinky", prm, "dernierSync" FROM utilisateur WHERE "idUtilisateur" = $1',
+    [userId],
+  );
+
+  if (!user.rows[0]?.tokenLinky) return;
+
+  const { tokenLinky, prm, dernierSync } = user.rows[0];
+
+  // Vérifier si on a déjà sync aujourd'hui
+  const aujourdhui = new Date().toISOString().split("T")[0];
+  if (dernierSync && dernierSync.toISOString().split("T")[0] === aujourdhui)
+    return;
+
+  const end = new Date().toISOString().split("T")[0];
+  const start = new Date();
+  start.setDate(start.getDate() - 2);
+  const startStr = start.toISOString().split("T")[0];
+
+  const response = await axios.get(
+    `https://conso.boris.sh/api/daily_consumption?prm=${prm}&start=${startStr}&end=${end}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenLinky}`,
+        "User-Agent": "https://github.com/AzraeLandres/wattsome",
+      },
+    },
+  );
+
+  for (const reading of response.data.interval_reading) {
+    await pool.query(
+      `INSERT INTO consommation (valeur, unite, "dateMesure", "idUtilisateur") 
+       VALUES ($1, $2, $3, $4) 
+       ON CONFLICT DO NOTHING`,
+      [reading.value / 1000, "kWh", reading.date, userId],
+    );
+  }
+
+  // Mettre à jour la date de sync
+  await pool.query(
+    'UPDATE utilisateur SET "dernierSync" = NOW() WHERE "idUtilisateur" = $1',
+    [userId],
+  );
+};
+
+export const syncTousLesUtilisateurs = async () => {
+  try {
+    const users = await pool.query(
+      'SELECT "idUtilisateur" FROM utilisateur WHERE "tokenLinky" IS NOT NULL',
+    );
+    for (const user of users.rows) {
+      await syncLinky(user.idUtilisateur);
+    }
+    console.log("Sync terminée pour tous les utilisateurs");
+  } catch (error) {
+    console.error("Erreur sync:", error);
+  }
+};
+
 export const getConso = async (req: AuthRequest, res: Response) => {
   const { start, end, scale } = req.query;
 

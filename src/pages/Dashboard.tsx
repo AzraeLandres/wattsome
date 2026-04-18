@@ -97,10 +97,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-amber-50 p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold text-purple-800">Wattsome</h1>
-      </div>
-
       <h2 className="text-2xl font-bold text-purple-800 mb-4">
         Suivre sa consommation
       </h2>
