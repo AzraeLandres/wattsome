@@ -7,6 +7,7 @@ import Profil from "./pages/Profil";
 import Accueil from "./pages/Accueil";
 import ConnexionLinky from "./pages/ConnexionLinky";
 import AuthLayout from "./components/AuthLayout";
+import Alertes from "./pages/Alertes";
 
 const RequireAuth = () => {
   const token = localStorage.getItem("token");
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
           {
             path: "/profil",
             element: <Profil />,
+          },
+          {
+            path: "/alertes",
+            element: <Alertes />,
           },
         ],
       },
