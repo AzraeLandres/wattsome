@@ -31,7 +31,7 @@ const ConnexionLinky = () => {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-amber-50  pt-10 px-10">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-purple-800">
