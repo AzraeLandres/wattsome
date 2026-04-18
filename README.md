@@ -1,6 +1,7 @@
 # Wattsome
 
 Application web progressive (PWA) de suivi de consommation électrique personnelle.
+Partiel Ensitech
 
 ## Stack technique
 
@@ -32,7 +33,7 @@ cd wattsome
 ### 2. Lancer la base de données
 
 ```bash
-docker run --name wattsome-db -e POSTGRES_PASSWORD=tonmdp -e POSTGRES_DB=wattsome -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
+docker run --name wattsome-db -e POSTGRES_PASSWORD=<votremdp> -e POSTGRES_DB=wattsome -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
 ```
 
 ### 3. Configurer le backend
@@ -42,22 +43,15 @@ cd server
 npm install
 ```
 
-Crée un fichier `.env` dans `server/` :
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=wattsome
-DB_USER=postgres
-DB_PASSWORD=tonmdp
-JWT_SECRET=un_secret_long_et_aleatoire
-PORT=3000
+Créez un fichier `.env` dans `server/` en suivant l'example.
 
-Initialise le schéma :
+Initialisez le schéma :
 
 ```bash
 cat src/config/schema.sql | docker exec -i wattsome-db psql -U postgres -d wattsome
 ```
 
-Lance le serveur :
+Lancez le serveur :
 
 ```bash
 npm run dev
@@ -71,6 +65,7 @@ npm install
 npm run dev
 ```
 
+Créez un fichier `.env` à la racine.
 L'application est accessible sur `http://localhost:5173`
 
 ## Utilisation
@@ -83,6 +78,21 @@ L'application est accessible sur `http://localhost:5173`
 ## Sécurité
 
 - Mots de passe hachés avec bcrypt
-- Authentification via JWT
+- Authentification via JWT stocké dans un cookie httpOnly (protection XSS)
 - Requêtes SQL préparées (protection injections SQL)
 - Token Linky stocké en base, jamais exposé côté client
+- CORS configuré pour n'accepter que l'origine autorisée
+
+## Aperçu
+
+### Connexion
+
+![Connexion](docs/screenshots/connexion.png)
+
+### Tableau de bord
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Profil
+
+![Profil](docs/screenshots/profil.png)
