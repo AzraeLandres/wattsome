@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Zap, LogOut, User } from "lucide-react";
+import { deconnexion } from "@/services/api";
 
 const Profil = () => {
   const navigate = useNavigate();
 
-  const handleDeconnexion = () => {
-    localStorage.removeItem("token");
+  const handleDeconnexion = async () => {
+    await deconnexion();
     navigate("/connexion");
   };
 

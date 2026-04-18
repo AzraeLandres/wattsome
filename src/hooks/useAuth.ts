@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getProfil } from "@/services/api";
 
 const useAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
+    getProfil().catch(() => {
       navigate("/connexion");
-    }
+    });
   }, [navigate]);
 };
 

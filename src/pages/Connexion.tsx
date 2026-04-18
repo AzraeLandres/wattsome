@@ -18,6 +18,7 @@ const Connexion = () => {
       const response = await fetch("http://localhost:3000/api/auth/connexion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, mdp }),
       });
 
@@ -28,7 +29,6 @@ const Connexion = () => {
         return;
       }
 
-      localStorage.setItem("token", data.token);
       localStorage.setItem("nom", data.user.nom);
       navigate("/dashboard");
     } catch {

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet, useNavigate } from "react-router-dom";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Dashboard from "./pages/Dashboard";
@@ -8,10 +8,24 @@ import Accueil from "./pages/Accueil";
 import ConnexionLinky from "./pages/ConnexionLinky";
 import AuthLayout from "./components/AuthLayout";
 import Alertes from "./pages/Alertes";
+import { useEffect, useState } from "react";
+import { getProfil } from "./services/api";
 
 const RequireAuth = () => {
-  const token = localStorage.getItem("token");
-  return token ? <Outlet /> : <Navigate to="/connexion" />;
+  const [auth, setAuth] = useState<boolean | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getProfil()
+      .then(() => setAuth(true))
+      .catch(() => {
+        setAuth(false);
+        navigate("/connexion");
+      });
+  }, [navigate]);
+
+  if (auth === null) return null;
+  return <Outlet />;
 };
 
 const router = createBrowserRouter([

@@ -63,8 +63,13 @@ export const signIn = async (req: Request, res: Response) => {
       { expiresIn: "24h" },
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // true en production avec HTTPS
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 24h à vor plus tard
+    });
     res.json({
-      token,
       user: {
         idUtilisateur: user.rows[0].idUtilisateur,
         nom: user.rows[0].nom,
@@ -74,4 +79,13 @@ export const signIn = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la connexion", error });
   }
+};
+
+export const signOut = async (req: Request, res: Response) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+  res.json({ message: "Déconnecté" });
 };
