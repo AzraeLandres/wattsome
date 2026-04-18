@@ -57,7 +57,6 @@ export const connectLinky = async (req: AuthRequest, res: Response) => {
     console.error("Erreur lors de la connexion à Linky :", error);
     res.status(500).json({
       message: "Erreur lors de la connexion à Linky",
-      error: String(error),
     });
   }
 };
