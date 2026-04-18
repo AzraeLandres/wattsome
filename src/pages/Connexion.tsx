@@ -29,6 +29,7 @@ const Connexion = () => {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("nom", data.user.nom);
       navigate("/dashboard");
     } catch {
       setError("Erreur serveur, réessayez plus tard");

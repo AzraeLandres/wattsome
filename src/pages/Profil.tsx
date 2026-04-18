@@ -23,7 +23,9 @@ const Profil = () => {
             </div>
             <div>
               <p className="font-medium text-purple-800">Mon compte</p>
-              <p className="text-sm text-gray-500">Gérer mes informations</p>
+              <p className="text-sm text-gray-500">
+                {localStorage.getItem("nom")}
+              </p>
             </div>
           </div>
         </CardContent>
