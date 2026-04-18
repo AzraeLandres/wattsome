@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import pool from "../config/database";
 import axios from "axios";
 import { AuthRequest } from "../middleware/authMiddleware";
-import { log } from "console";
+import { checkAndCreateAlertes } from "./alerteController";
 
 export const connectLinky = async (req: AuthRequest, res: Response) => {
   const { token } = req.body;
@@ -105,6 +105,8 @@ export const syncLinky = async (userId: string) => {
     'UPDATE utilisateur SET "dernierSync" = NOW() WHERE "idUtilisateur" = $1',
     [userId],
   );
+
+  await checkAndCreateAlertes(userId);
 };
 
 export const syncTousLesUtilisateurs = async () => {

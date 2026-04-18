@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomNav from "./BottomNav";
 import { Zap, Bell } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,19 +11,22 @@ interface Alerte {
 const AuthLayout = () => {
   const navigate = useNavigate();
   const [nbAlertes, setNbAlertes] = useState(0);
-
+  const location = useLocation();
   useEffect(() => {
     getAlertes().then((data: Alerte[]) => {
       if (Array.isArray(data)) {
         setNbAlertes(data.filter((a) => !a.lu).length);
       }
     });
-  }, []);
+  }, [location]);
 
   return (
     <div className="pb-16 min-h-screen bg-amber-50">
       <header className="flex justify-between items-center p-4">
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2"
+          onClick={() => navigate("/dashboard")}
+        >
           <Zap className="text-amber-400" size={24} />
           <span className="text-xl font-bold text-purple-800">Wattsome</span>
         </div>

@@ -47,8 +47,6 @@ export const checkAndCreateAlertes = async (userId: string) => {
 
 export const getAlertes = async (req: AuthRequest, res: Response) => {
   try {
-    await checkAndCreateAlertes(req.userId!);
-
     const result = await pool.query(
       `SELECT * FROM alerte WHERE "idUtilisateur" = $1 ORDER BY "dateAlerte" DESC`,
       [req.userId],

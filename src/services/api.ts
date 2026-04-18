@@ -1,9 +1,14 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getHeaders = () => ({
   "Content-Type": "application/json",
   Authorization: `Bearer ${localStorage.getItem("token")}`,
 });
+
+export const getProfil = async () => {
+  const response = await fetch(`${API_URL}/profil`, { headers: getHeaders() });
+  return response.json();
+};
 
 export const getConsommations = async (start: string, end: string) => {
   const response = await fetch(
