@@ -96,3 +96,31 @@ L'application est accessible sur `http://localhost:5173`
 ### Profil
 
 ![Profil](docs/screenshots/profil.png)
+
+## Tests
+
+Les tests sont manuels et ciblés, réalisés sur environnement local.
+
+### Environnement
+
+- Frontend : http://localhost:5173
+- Backend : http://localhost:3000
+- BDD : PostgreSQL via Docker
+
+### Résultats
+
+| #   | Fonctionnalité | Action                       | Résultat attendu                       | Statut |
+| --- | -------------- | ---------------------------- | -------------------------------------- | ------ |
+| 1   | Inscription    | Données valides              | Redirection vers connexion             | ✅     |
+| 2   | Inscription    | Email déjà utilisé           | Message "Ce compte existe déjà"        | ✅     |
+| 3   | Inscription    | Champs vides                 | Formulaire bloqué                      | ✅     |
+| 4   | Connexion      | Identifiants valides         | Redirection vers dashboard             | ✅     |
+| 5   | Connexion      | Mauvais mot de passe         | Message "Identifiants incorrects"      | ✅     |
+| 6   | Sécurité       | Accès /dashboard sans cookie | Redirection vers connexion             | ✅     |
+| 7   | Linky          | Token valide                 | Données affichées sur le dashboard     | ✅     |
+| 8   | Linky          | Token invalide               | Message d'erreur                       | ✅     |
+| 9   | Consommations  | Changement de période        | Graphique mis à jour                   | ✅     |
+| 10  | Consommations  | Plage personnalisée          | Graphique mis à jour                   | ✅     |
+| 11  | Alertes        | Clic sur une alerte          | Alerte marquée comme lue               | ✅     |
+| 12  | Alertes        | Marquer toutes comme lues    | Alertes disparaissent                  | ✅     |
+| 13  | Déconnexion    | Clic déconnexion             | Redirection connexion, cookie supprimé | ✅     |
