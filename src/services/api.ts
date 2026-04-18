@@ -10,6 +10,7 @@ export const getProfil = async () => {
     headers: getHeaders(),
     credentials: "include",
   });
+  if (!response.ok) throw new Error("Non autorisé");
   return response.json();
 };
 export const deconnexion = async () => {
